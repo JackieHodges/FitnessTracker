@@ -1,27 +1,23 @@
-const path = require('path');
-const express = require('express');
-// const routes = require('./controllers');
-const mongojs = require("mongojs");
-const logger = require("morgan");
+const express = require("express");
+const mongoose = require("mongoose");
 
-const databaseURL = "WorkoutTracker";
-const collections = ["workouts"];
-const db = mongojs(databaseURL, collections);
+const PORT = process.env.PORT || 3000;
 
 const app = express();
-// const PORT = process.env.PORT || 3001;
 
-app.use(logger("dev"));
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
-// app.use(routes);
+app.use(express.static("public"));
 
-db.on("error", error => {
-  console.log("Database Error: ", error);
-})
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+  useNewUrlParser: true,
+  useFindAndModify: false
+});
 
-app.listen(3000, () => {
-  console.log("App running on port 3000!");
+// routes
+// app.use(require("./routes/api.js"));
+
+app.listen(PORT, () => {
+  console.log(`App running on port ${PORT}!`);
 });
