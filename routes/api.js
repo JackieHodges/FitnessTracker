@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Workout = require("../models/Workout");
 const mongojs = require("mongojs");
+const path = require("path");
 
 router.get("/api/workouts", (req, res) => {
     Workout.find({})
@@ -46,5 +47,14 @@ router.post("/api/workouts", (req, res) => {
     });
 });
 
+
+// HTML Routes
+router.get("/exercise", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/exercise.html"));
+});
+
+router.get("/stats", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/stats.html"));
+});
 
 module.exports = router;
