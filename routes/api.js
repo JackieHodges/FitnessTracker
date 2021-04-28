@@ -47,6 +47,17 @@ router.post("/api/workouts", (req, res) => {
     });
 });
 
+router.get("/api/workouts/range", (req, res) => {
+    Workout.find({}).sort({ _id: -1 }).limit(7)
+    // .sort({ date: -1 })
+    .then(dbTransaction => {
+        res.json(dbTransaction);
+    })
+    .catch(err => {
+        res.status(400).json(err);
+    }); 
+})
+
 
 // HTML Routes
 router.get("/exercise", (req, res) => {
