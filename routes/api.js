@@ -7,7 +7,16 @@ router.get("/api/workouts", (req, res) => {
     // const workout = new Workout (req.body);
     // workout.getTotalDuration();
     // console.log(`Workout is ${workout}`);
-    Workout.find({})
+    // Workout.find({})
+    Workout.aggregate([
+        {
+            $addFields: {
+                totalDuration: {
+                    $sum: "$exercises.duration"
+                },
+            },
+        },
+    ])
         // .sort({ date: -1 })
         .then(dbTransaction => {
             res.json(dbTransaction);
@@ -41,7 +50,7 @@ router.put("/api/workouts/:id", (req, res) => {
 });
 
 router.post("/api/workouts", (req, res) => {
-    Workout.create(workout, (err, data) => {
+    Workout.create(req.body, (err, data) => {
         if (err) {
             res.send(err);
         } else {
