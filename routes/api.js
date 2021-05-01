@@ -3,7 +3,7 @@ const Workout = require("../models/Workout");
 const mongojs = require("mongojs");
 const path = require("path");
 
-router.get("/api/workouts", (req, res) => {
+router.get("/workouts", (req, res) => {
     // const workout = new Workout (req.body);
     // workout.getTotalDuration();
     // console.log(`Workout is ${workout}`);
@@ -26,7 +26,7 @@ router.get("/api/workouts", (req, res) => {
         });
 });
 
-router.put("/api/workouts/:id", (req, res) => {
+router.put("/workouts/:id", (req, res) => {
     Workout.updateOne(
         {
             _id: mongojs.ObjectId(req.params.id)
@@ -49,7 +49,7 @@ router.put("/api/workouts/:id", (req, res) => {
     )
 });
 
-router.post("/api/workouts", (req, res) => {
+router.post("/workouts", (req, res) => {
     Workout.create(req.body, (err, data) => {
         if (err) {
             res.send(err);
@@ -59,7 +59,7 @@ router.post("/api/workouts", (req, res) => {
     });
 });
 
-router.get("/api/workouts/range", (req, res) => {
+router.get("/workouts/range", (req, res) => {
     Workout.aggregate([
         {
             $addFields: {
@@ -79,14 +79,5 @@ router.get("/api/workouts/range", (req, res) => {
     }); 
 })
 
-
-// HTML Routes
-router.get("/exercise", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/exercise.html"));
-});
-
-router.get("/stats", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/stats.html"));
-});
 
 module.exports = router;
