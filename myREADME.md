@@ -30,6 +30,6 @@ To install from GitHub, follow these steps:
 
 ## Usage
 
-Deployed webpage on Heroku can be found here: [Deployed Heroku Page](https://sheltered-bayou-08162.herokuapp.com/login)
+Deployed webpage on Heroku can be found here: [Deployed Heroku Page](https://polar-wave-06680.herokuapp.com/)
 
 
