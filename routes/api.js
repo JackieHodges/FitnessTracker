@@ -4,6 +4,9 @@ const mongojs = require("mongojs");
 const path = require("path");
 
 router.get("/api/workouts", (req, res) => {
+    // const workout = new Workout (req.body);
+    // workout.getTotalDuration();
+    // console.log(`Workout is ${workout}`);
     Workout.find({})
         // .sort({ date: -1 })
         .then(dbTransaction => {
@@ -38,7 +41,7 @@ router.put("/api/workouts/:id", (req, res) => {
 });
 
 router.post("/api/workouts", (req, res) => {
-    Workout.create(req.body, (err, data) => {
+    Workout.create(workout, (err, data) => {
         if (err) {
             res.send(err);
         } else {
@@ -48,8 +51,17 @@ router.post("/api/workouts", (req, res) => {
 });
 
 router.get("/api/workouts/range", (req, res) => {
-    Workout.find({}).sort({ _id: -1 }).limit(7)
-    // .sort({ date: -1 })
+    Workout.aggregate([
+        {
+            $addFields: {
+                totalDuration: {
+                    $sum: "$exercises.duration"
+                },
+            },
+        },
+    ])
+    .sort({ _id: -1 })
+    .limit(7)
     .then(dbTransaction => {
         res.json(dbTransaction);
     })
